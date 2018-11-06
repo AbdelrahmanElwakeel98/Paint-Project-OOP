@@ -25,9 +25,9 @@ public class Ellipse extends IShape {
 		
 		if ((int) SecondX < x) {
 			x1 = x - (int) Point2D.distance(x, y, SecondX, y);
-			canvas.drawRect(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
 		} else {
-			canvas.drawRect(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
 		}
 		
 		
