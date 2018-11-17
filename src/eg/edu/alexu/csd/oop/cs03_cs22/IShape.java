@@ -8,11 +8,13 @@ import java.util.Map;
 
 import eg.edu.alexu.csd.oop.draw.Shape;
 
-public class IShape implements Shape {
+public class IShape implements Shape, Cloneable {
 	
 	Point position;
 	Color c;
 	Map<String, Double> properties = new HashMap< String, Double>(); 
+	
+	
 
 	@Override
 	public void setPosition(Point position) {
@@ -28,7 +30,6 @@ public class IShape implements Shape {
 	public void setProperties(Map<String, Double> properties) {
 		this.properties.put("SecondX", properties.get("First"));
 		this.properties.put("SecondY", properties.get("Second"));
-		
 	}
 
 	@Override
@@ -65,9 +66,12 @@ public class IShape implements Shape {
 		
 	}
 	
+	@Override
 	public Object clone() throws CloneNotSupportedException{
-		return null;
+		return (Shape) super.clone();  
 		
 	}
+	
+	
 
 }

@@ -1,6 +1,9 @@
 package eg.edu.alexu.csd.oop.cs03_cs22;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 
@@ -17,10 +20,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
+import java.awt.Rectangle;
+
+import eg.edu.alexu.csd.oop.draw.DrawingEngine;
+import eg.edu.alexu.csd.oop.draw.Shape;
 
 public class Gui {
 
 	private JFrame frame;
+	public static int drawFlag = 0;
+	public static int sel = 0, remove = 0, refresh = 0;
 
 	/**
 	 * Launch the application.
@@ -54,15 +63,17 @@ public class Gui {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel panel = new JPanel();
+		JPanel panel = new MyJPanel();
 		panel.setBounds(0, 128, 945, 393);
 		frame.getContentPane().add(panel);
 
-		Icon warnIcon = new ImageIcon("resources/remove.png");
+
 
 		JButton btnLine = new JButton( new ImageIcon("resources/remove.png"));
 		btnLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 1;
+				sel = 0;
 			}
 		});
 		btnLine.setBounds(12, 28, 97, 37);
@@ -70,22 +81,52 @@ public class Gui {
 		frame.getContentPane().add(btnLine);
 
 		JButton button = new JButton(new ImageIcon("resources/empty.png"));
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 2;
+				sel = 0;
+			}
+		});
 		button.setBounds(121, 28, 97, 37);
 		frame.getContentPane().add(button);
 
 		JButton button_1 = new JButton(new ImageIcon("resources/ellipse-outline-shape-variant.png"));
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawFlag = 3;
+				sel = 0;
+			}
+		});
 		button_1.setBounds(230, 28, 97, 37);
 		frame.getContentPane().add(button_1);
 
-		JButton button_2 = new JButton(new ImageIcon("resources/down-arrow.png"));
+		JButton button_2 = new JButton(new ImageIcon("resources/ruler.png"));
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawFlag = 6;
+				sel = 0;
+			}
+		});
 		button_2.setBounds(12, 78, 97, 37);
 		frame.getContentPane().add(button_2);
 
 		JButton button_3 = new JButton(new ImageIcon("resources/blank-check-box.png"));
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawFlag = 5;
+				sel = 0;
+			}
+		});
 		button_3.setBounds(121, 78, 97, 37);
 		frame.getContentPane().add(button_3);
 
 		JButton button_4 = new JButton(new ImageIcon("resources/rectangle.png"));
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawFlag = 4;
+				sel = 0;
+			}
+		});
 		button_4.setBounds(230, 78, 97, 37);
 		frame.getContentPane().add(button_4);
 
@@ -112,6 +153,37 @@ public class Gui {
 		});
 		btnFillColor.setBounds(670, 78, 97, 25);
 		frame.getContentPane().add(btnFillColor);
+
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				remove = 1;
+
+			}
+		});
+		btnRemove.setBounds(519, 40, 97, 25);
+		frame.getContentPane().add(btnRemove);
+
+		JButton btnSelecr = new JButton("Select");
+		btnSelecr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 0;
+				sel = 1;
+			}
+		});
+		btnSelecr.setBounds(670, 40, 97, 25);
+		frame.getContentPane().add(btnSelecr);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refresh = 1;
+				drawFlag = 0;
+				panel.repaint();
+			}
+		});
+		btnRefresh.setBounds(384, 78, 97, 25);
+		frame.getContentPane().add(btnRefresh);
 
 	}
 }

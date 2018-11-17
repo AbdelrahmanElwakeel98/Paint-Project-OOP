@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.oop.cs03_cs22;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,20 +18,34 @@ public class Ellipse extends IShape {
 		int x = (int) point.getX();
 		int y = (int) point.getY();
 		int x1 = 0;
-		
+		int y1 = 0;
+
 		Map<String, Double> properties = new HashMap< String, Double>();
 		properties = getProperties();
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
-		
+
 		if ((int) SecondX < x) {
-			x1 = x - (int) Point2D.distance(x, y, SecondX, y);
-			canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			if ( (int) SecondY < y ) {
+				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
+				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
+				canvas.setClip(x1, y1, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
+				canvas.drawOval(x1, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			} else {
+				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
+				canvas.setClip(x1, y, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
+				canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			}
 		} else {
-			canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			if ( (int) SecondY < y) {
+				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
+		      canvas.setClip(x, y1, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
+		      canvas.drawOval(x, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			} else {
+				canvas.setClip(x, y, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
+				canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+			}
 		}
-		
-		
-		
+
 	}
 }

@@ -18,20 +18,43 @@ public class Triangle extends IShape{
 		int y = (int) point.getY();
 		int x1 = 0;
 		int c = 0;
-		
+		int y1 = 0;
+
 		Map<String, Double> properties = new HashMap< String, Double>();
 		properties = getProperties();
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
-		
+
 		if ((int) SecondX < x) {
-			x1 = x - (int) Point2D.distance(x, y, SecondX, y);
-			c = (int) Point2D.distance(x, y, SecondX, y) / 2;
-			canvas.drawPolygon(new int[] {c + x1, (int) SecondX, x}, new int[] {y, (int) SecondY, (int) SecondY}, 3);
+		    if ( (int) SecondY < y ) {
+				y1 = y - (int) Point2D.distance(x, SecondY, x, y);
+				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
+				c = (int) Point2D.distance(x, y, SecondX, y) / 2;
+
+				canvas.setClip(x1, y1, (int) Point2D.distance(x, y, SecondX, y) +1, (int) Point2D.distance(x, SecondY, x, y) +1);
+				canvas.drawPolygon(new int[] {c + x1, (int) SecondX, x}, new int[] {y1, (int) SecondY + (int) Point2D.distance(x, SecondY, x, y), (int) SecondY + (int) Point2D.distance(x, SecondY, x, y)}, 3);
+		    } else {
+				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
+				c = (int) Point2D.distance(x, y, SecondX, y) / 2;
+
+				canvas.setClip(x1, y, (int) Point2D.distance(x, y, SecondX, y) + 1, (int) Point2D.distance(x, SecondY, x, y) + 1);
+				canvas.drawPolygon(new int[] {c + x1, (int) SecondX, x}, new int[] {y, (int) SecondY, (int) SecondY}, 3);
+		    }
+
 		} else {
+			if ( (int) SecondY < y ) {
+				y1 = y - (int) Point2D.distance(x, SecondY, x, y);
+				c = (int) Point2D.distance(x, y, SecondX, y) / 2;
+
+				canvas.setClip(x, y1, (int) Point2D.distance(x, y, SecondX, y) + 1, (int) Point2D.distance(x, SecondY, x, y) + 1);
+				canvas.drawPolygon(new int[] {c + x, (int) SecondX, x}, new int[] {y1, (int) SecondY+ (int) Point2D.distance(x, SecondY, x, y), (int) SecondY+ (int) Point2D.distance(x, SecondY, x, y)}, 3);
+			} else {
 			c = (int) Point2D.distance(x, y, SecondX, y) / 2;
+
+			canvas.setClip(x, y, (int) Point2D.distance(x, y, SecondX, y) + 1, (int) Point2D.distance(x, SecondY, x, y) + 1);
 			canvas.drawPolygon(new int[] {c + x, (int) SecondX, x}, new int[] {y, (int) SecondY, (int) SecondY}, 3);
+			}
 		}
-		
+
 	}
 }

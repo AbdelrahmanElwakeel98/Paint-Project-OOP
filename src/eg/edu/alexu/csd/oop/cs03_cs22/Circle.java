@@ -17,21 +17,35 @@ public class Circle extends IShape{
 		int x = (int) point.getX();
 		int y = (int) point.getY();
 		int x1 = 0;
-		
+		int y1 = 0;
+
 		Map<String, Double> properties = new HashMap< String, Double>();
 		properties = getProperties();
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
-		
+
 		if ((int) SecondX < x) {
-			x1 = x - (int) Point2D.distance(x, y, SecondX, SecondY);
-			canvas.drawOval(x1, y,(int) Point2D.distance(x, y, SecondX, SecondY),(int) Point2D.distance(x, y, SecondX, SecondY));
+			if ( (int) SecondY < y ) {
+				y1 = y - (int) Point2D.distance(x, y, SecondX, SecondY);
+				x1 = x - (int) Point2D.distance(x, y, SecondX, SecondY);
+				canvas.setClip(x1 - 1, y1- 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1);
+				canvas.drawOval(x1, y1, (int) Point2D.distance(x, y, SecondX, SecondY), (int) Point2D.distance(x, y, SecondX, SecondY));
+
+			} else {
+				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
+				canvas.setClip(x1- 1, y- 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1);
+				canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, SecondY), (int) Point2D.distance(x, y, SecondX, SecondY));
+			}
 		} else {
-			canvas.drawOval(x, y,(int) Point2D.distance(x, y, SecondX, SecondY),(int) Point2D.distance(x, y, SecondX, SecondY));
+			if ( (int) SecondY < y) {
+				y1 = y - (int) Point2D.distance(x, y, SecondX, SecondY);
+				canvas.setClip(x- 1, y1- 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1);
+				canvas.drawOval(x, y1, (int) Point2D.distance(x, y, SecondX, SecondY), (int) Point2D.distance(x, y, SecondX, SecondY));
+			} else {
+				canvas.setClip(x- 1, y- 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1, (int) Point2D.distance(x, y, SecondX, SecondY)+ 1);
+				canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, SecondY), (int) Point2D.distance(x, y, SecondX, SecondY));
+			}
 		}
-		
-		
-		
-		
+
 	}
 }

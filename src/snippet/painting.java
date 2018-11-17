@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import eg.edu.alexu.csd.oop.cs03_cs22.Circle;
 import eg.edu.alexu.csd.oop.cs03_cs22.Ellipse;
+import eg.edu.alexu.csd.oop.cs03_cs22.IShape;
 import eg.edu.alexu.csd.oop.cs03_cs22.LineSegment;
 import eg.edu.alexu.csd.oop.cs03_cs22.Rectangle;
 import eg.edu.alexu.csd.oop.cs03_cs22.Square;
@@ -77,7 +78,8 @@ class Mycanvas extends JPanel{
     private int squareH = 20;
 
     Ellipse line = new Ellipse();
-
+   
+    
     int i = 0;
     Point point;
  private   Map<String, Double> properties = new HashMap< String, Double>();
@@ -94,6 +96,8 @@ class Mycanvas extends JPanel{
                point = new Point(e.getX(), e.getY());
                 
                 line.setPosition(point);
+                
+                
                 
                 System.out.print(point.getX());
                 System.out.print("\n");
@@ -148,15 +152,10 @@ class Mycanvas extends JPanel{
         if (point != null && !properties.isEmpty()) {
         	System.out.println("d5l");
         line.draw(g);
+       
+        repaint();
         }
-        /*g.drawString("This is my custom Panel!",10,20);
-        g.setColor(Color.RED);
-        g.drawRect(squareX,squareY,squareW,squareH);*/
-
-
-       // g.fillRect(squareX,squareY,squareW,squareH);
-      //  g.setColor(Color.BLACK);
-     //   g.drawRect(squareX,squareY,squareW,squareH);
+        
     
     
 }
