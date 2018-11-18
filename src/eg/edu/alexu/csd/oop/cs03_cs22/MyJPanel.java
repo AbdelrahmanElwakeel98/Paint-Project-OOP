@@ -57,7 +57,7 @@ public class MyJPanel extends JPanel {
             	    point = null;
             		point = getMousePosition();
             		repaint();
-        		}
+        		} 
             }
         });
 
@@ -70,8 +70,10 @@ public class MyJPanel extends JPanel {
 	}
 
 	protected void paintComponent(Graphics g) {
+		
         super.paintComponent(g);
-
+        
+        
         if (point != null && !properties.isEmpty() && Gui.drawFlag != 0) {
         Shape[] shapes = d.getShapes();
         for (Shape shape : shapes) {
@@ -87,6 +89,7 @@ public class MyJPanel extends JPanel {
         	Shape[] sh = d.getShapes();
         	for (Shape s : sh) {
         		if (s == null) {
+        			
         			break;
         		}
         		s.draw(g);
@@ -97,10 +100,10 @@ public class MyJPanel extends JPanel {
         			 g2.setStroke(dashed);
         			 s.draw(g2);
         			 g2.setStroke(new BasicStroke());
-        			/*g.setColor(Color.BLUE);
-        			s.draw(g);
-        			g.setColor(Color.BLACK);*/
         			if (Gui.remove == 1) {
+        				
+        				System.out.print("hhh");
+        				
         				d.removeShape(s);
         				repaint();
         			}
@@ -108,18 +111,16 @@ public class MyJPanel extends JPanel {
         	}
          }
         
-        if (Gui.refresh == 1) {
-        	g.setColor(Color.GRAY);
-        	g.clearRect(0, 0, 945, 393);
-       
-        	try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        
+        if (Gui.undo == 1) {
+        	d.undo();
         	d.refresh(g);
+        	point = null;
+        }
+        
+        if (Gui.redo == 1) {
+        	d.redo();
+        	d.refresh(g);
+        	point = null;
         }
 
 

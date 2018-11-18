@@ -10,10 +10,130 @@ import eg.edu.alexu.csd.oop.draw.DrawingEngine;
 import eg.edu.alexu.csd.oop.draw.Shape;
 
 public class IDrawingEngine implements DrawingEngine {
-	
+
 	private Shape[] shapes = new Shape[100];
 	private int counter = 0;
-	private int i = 0;
+	private CommandManager commandManager = new CommandManager();
+	
+	
+	private class AddShapeCommand implements Command{
+		
+		private IDrawingEngine engine;
+		private Shape s;
+		private int counter;
+		
+		private AddShapeCommand(IDrawingEngine engine, Shape s, int counter) {
+			this.engine = engine;
+			this.s = s;
+			this.counter = counter;
+		}
+
+		@Override
+		public void execute() {
+			engine.shapes[this.counter] = this.s;
+			this.counter = this.counter + 1;
+			engine.counter = this.counter;
+		}
+
+		@Override
+		public void undo() {
+			engine.shapes[this.counter - 1] = null;
+			this.counter = this.counter - 1;
+			engine.counter = this.counter;
+			
+		}
+
+		@Override
+		public void redo() {
+			this.counter = this.counter + 1;
+			engine.shapes[this.counter] = this.s;
+			engine.counter = this.counter;
+			
+		}
+		
+	}
+	
+	private class RemoveShapeCommand implements Command{
+		
+		private IDrawingEngine engine;
+		private Shape s;
+		private int counter;
+		
+		private RemoveShapeCommand(IDrawingEngine engine, Shape s, int counter) {
+			this.engine = engine;
+			this.s = s;
+			this.counter = counter;
+		}
+
+		@Override
+		public void execute() {
+			for(int i = 0; i < engine.shapes.length; i++){
+	            if(engine.shapes[i] == this.s){
+	            	engine.shapes = removeElementUsingCollection(engine.shapes, i);
+	                break;
+	            }
+	        }
+			this.counter = this.counter - 1;
+			engine.counter = this.counter;
+		}
+
+		@Override
+		public void undo() {
+			engine.shapes[this.counter] = this.s;
+			this.counter = this.counter + 1;
+			engine.counter = this.counter;
+		}
+
+		@Override
+		public void redo() {
+			engine.shapes[this.counter - 1] = this.s;
+			this.counter = this.counter - 1;
+			engine.counter = this.counter;
+		}
+		
+	}
+	
+	private class UpdateShapeCommand implements Command{
+		
+		private IDrawingEngine engine;
+		private Shape newShape;
+		private Shape oldShape;
+		
+		private UpdateShapeCommand(IDrawingEngine engine, Shape newShape, Shape oldShape) {
+			this.engine = engine;
+			this.newShape = newShape;
+			this.oldShape = oldShape;
+		}
+
+		@Override
+		public void execute() {
+			for(int i = 0; i < engine.shapes.length; i++){
+	            if(engine.shapes[i] == this.oldShape){
+	            	engine.shapes[i] = this.newShape;
+	            }
+	        }
+		}
+
+		@Override
+		public void undo() {
+			for(int i = 0; i < engine.shapes.length; i++){
+	            if(engine.shapes[i] == this.newShape){
+	            	engine.shapes[i] = this.oldShape;
+	            }
+	        }
+			
+		}
+
+		@Override
+		public void redo() {
+			for(int i = 0; i < engine.shapes.length; i++){
+	            if(engine.shapes[i] == this.oldShape){
+	            	engine.shapes[i] = this.newShape;
+	            }
+	        }
+		}
+	}
+	
 
 	@Override
 	public void refresh(Graphics canvas) {
@@ -28,26 +148,23 @@ public class IDrawingEngine implements DrawingEngine {
 
 	@Override
 	public void addShape(Shape shape) {
-		shapes[counter] = shape;
-		counter++;
+		commandManager.executeCommand(new AddShapeCommand(this, shape, this.counter));
 	}
 
 	@Override
 	public void removeShape(Shape shape) {
-		for(int i = 0; i < shapes.length; i++){
-            if(shapes[i] == shape){
-            	System.out.print(i);
-            	shapes = removeElementUsingCollection(shapes, i);
-                break;
-            }
-        }
-
-
+		commandManager.executeCommand(new RemoveShapeCommand(this, shape, this.counter));
 	}
 
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
-		// TODO Auto-generated method stub
+		commandManager.executeCommand(new UpdateShapeCommand(this, newShape, oldShape));
+		
+		/*for(int i = 0; i < shapes.length; i++){
+            if(shapes[i] == oldShape){
+            	shapes[i] = newShape;
+            }
+        }*/
 
 	}
 
@@ -64,14 +181,13 @@ public class IDrawingEngine implements DrawingEngine {
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
+		commandManager.undo();
 
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
-
+		commandManager.redo();
 	}
 
 	@Override
@@ -85,8 +201,8 @@ public class IDrawingEngine implements DrawingEngine {
 		// TODO Auto-generated method stub
 
 	}
-	
-	 public static Shape[] removeElementUsingCollection( Shape[] shapes2, int index ){
+
+	 private static Shape[] removeElementUsingCollection( Shape[] shapes2, int index ){
 	        List<Shape> tempList = new ArrayList<Shape>(Arrays.asList(shapes2));
 	        tempList.remove(index);
 	        return tempList.toArray(new Shape[0]);

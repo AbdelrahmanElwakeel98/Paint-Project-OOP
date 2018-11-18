@@ -29,7 +29,7 @@ public class Gui {
 
 	private JFrame frame;
 	public static int drawFlag = 0;
-	public static int sel = 0, remove = 0, refresh = 0;
+	public static int sel = 0, remove = 0, undo = 0, redo = 0;
 
 	/**
 	 * Launch the application.
@@ -74,6 +74,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 				drawFlag = 1;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		btnLine.setBounds(12, 28, 97, 37);
@@ -85,6 +88,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 				drawFlag = 2;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		button.setBounds(121, 28, 97, 37);
@@ -95,6 +101,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 3;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		button_1.setBounds(230, 28, 97, 37);
@@ -105,6 +114,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 6;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		button_2.setBounds(12, 78, 97, 37);
@@ -115,6 +127,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 5;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		button_3.setBounds(121, 78, 97, 37);
@@ -125,6 +140,9 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 4;
 				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
 			}
 		});
 		button_4.setBounds(230, 78, 97, 37);
@@ -140,7 +158,7 @@ public class Gui {
 
 			}
 		});
-		btnNewButton.setBounds(519, 78, 97, 25);
+		btnNewButton.setBounds(384, 78, 97, 25);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnFillColor = new JButton("Fill color");
@@ -158,10 +176,13 @@ public class Gui {
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				remove = 1;
+				redo = 0;
+				undo = 0;
+				drawFlag = 0;
 
 			}
 		});
-		btnRemove.setBounds(519, 40, 97, 25);
+		btnRemove.setBounds(519, 78, 97, 25);
 		frame.getContentPane().add(btnRemove);
 
 		JButton btnSelecr = new JButton("Select");
@@ -169,21 +190,49 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 				drawFlag = 0;
 				sel = 1;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+
 			}
 		});
 		btnSelecr.setBounds(670, 40, 97, 25);
 		frame.getContentPane().add(btnSelecr);
-		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.addActionListener(new ActionListener() {
+
+		JButton btnUndo = new JButton("Undo");
+		btnUndo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				refresh = 1;
+				undo = 1;
 				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
+
+			}
+		});
+		btnUndo.setBounds(384, 40, 97, 25);
+		frame.getContentPane().add(btnUndo);
+
+		JButton btnRedo = new JButton("Redo");
+		btnRedo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				redo = 1;
+				undo = 0;
+				drawFlag = 0;
+				sel = 0;
+				remove = 0;
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
 				panel.repaint();
 			}
 		});
-		btnRefresh.setBounds(384, 78, 97, 25);
-		frame.getContentPane().add(btnRefresh);
+		btnRedo.setBounds(519, 40, 97, 25);
+		frame.getContentPane().add(btnRedo);
 
 	}
 }
