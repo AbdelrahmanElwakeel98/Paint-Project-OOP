@@ -301,7 +301,7 @@ public class Gui {
 				resize = 0;
 			}
 		});
-		btnMove.setBounds(12, 93, 63, 37);
+		btnMove.setBounds(12, 93, 73, 37);
 		frame.getContentPane().add(btnMove);
 		
 		JButton btnResize = new JButton("Resize");
@@ -323,7 +323,7 @@ public class Gui {
 				panel.repaint();
 			}
 		});
-		btnResize.setBounds(87, 93, 69, 37);
+		btnResize.setBounds(97, 93, 80, 37);
 		frame.getContentPane().add(btnResize);
 		
 		JButton btnChangecolor = new JButton("ChangeColor");
@@ -347,7 +347,7 @@ public class Gui {
 				panel.repaint();
 			}
 		});
-		btnChangecolor.setBounds(168, 93, 105, 37);
+		btnChangecolor.setBounds(189, 93, 122, 37);
 		frame.getContentPane().add(btnChangecolor);
 		
 		JButton btnSavexml = new JButton("SaveXML");

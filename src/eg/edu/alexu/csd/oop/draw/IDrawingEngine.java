@@ -237,13 +237,17 @@ public class IDrawingEngine implements DrawingEngine {
 
 	@Override
 	public void undo() {
-		commandManager.undo();
-
+		if (commandManager.isUndoAvailable()) {
+			commandManager.undo();
+		}
 	}
 
 	@Override
 	public void redo() {
-		commandManager.redo();
+		if (commandManager.isRedoAvailable()) {
+			commandManager.redo();
+		}
+		
 	}
 
 	@Override

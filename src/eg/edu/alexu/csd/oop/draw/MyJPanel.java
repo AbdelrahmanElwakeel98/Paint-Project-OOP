@@ -154,23 +154,26 @@ public class MyJPanel extends JPanel {
        			oldPoint = shapeDragging.getPosition();
        			oldProperties = shapeDragging.getProperties();
        			point = getMousePosition();
-       			if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() >= point.getY()) {
-       				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
-           			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
-       			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() >= point.getY()) {
-       				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
-           			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
-       			} else if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() <= point.getY()) {
-       				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
-       				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
-       			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() <= point.getY()) {
-       				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
-       				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
-       			}
-       			shapeDragging.setPosition(point);
-       			shapeDragging.setProperties(properties);
+       			if (point != null) {
+       				if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() >= point.getY()) {
+           				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+               			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+           			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() >= point.getY()) {
+           				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+               			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+           			} else if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() <= point.getY()) {
+           				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+           				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+           			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() <= point.getY()) {
+           				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+           				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+           			}
+           			shapeDragging.setPosition(point);
+           			shapeDragging.setProperties(properties);
 
-       			repaint();
+           			repaint();
+       			}
+       			
             	}
             }
         });
