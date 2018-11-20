@@ -58,6 +58,14 @@ public class MyJPanel extends JPanel {
         			shapeUpdated.setPosition(shapeSelected.getPosition());
         			shapeUpdated.setProperties(resizePros);
 
+        			if (shapeSelected.getColor() != null) {
+        				shapeUpdated.setColor(shapeSelected.getColor());
+        			} else if (shapeSelected.getFillColor() != null) {
+        				shapeUpdated.setFillColor(shapeSelected.getFillColor() );
+        			}
+
+
+
         			shapeSelected = shapeDragging;
 
         			try {
