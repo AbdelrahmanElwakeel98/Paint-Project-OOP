@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,17 +20,20 @@ import javax.swing.JColorChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
-import java.awt.Rectangle;
+import javax.swing.JOptionPane;
 
-import eg.edu.alexu.csd.oop.draw.DrawingEngine;
-import eg.edu.alexu.csd.oop.draw.Shape;
+import java.awt.Rectangle;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class Gui {
 
 	private JFrame frame;
 	public static int drawFlag = 0;
-	public static int sel = 0, remove = 0, undo = 0, redo = 0, move = 0, resize = 0, changeColor = 0;
+	public static int sel = 0, remove = 0, undo = 0, redo = 0, move = 0, resize = 0, changeColor = 0, saveXML = 0, loadXML = 0;
+	public static String path;
 	public static Color c = null;
 	public static Color c1 = null;
 	public static Color c2 = null;
@@ -67,7 +71,7 @@ public class Gui {
 		frame.getContentPane().setLayout(null);
 
 		JPanel panel = new MyJPanel();
-		panel.setBounds(0, 128, 945, 393);
+		panel.setBounds(0, 143, 945, 378);
 		frame.getContentPane().add(panel);
 
 
@@ -81,9 +85,12 @@ public class Gui {
 				remove = 0;
 				undo = 0;
 				move = 0;
+				changeColor = 0;
+				saveXML = 0;
+				loadXML = 0;
 			}
 		});
-		btnLine.setBounds(12, 28, 97, 37);
+		btnLine.setBounds(12, 28, 52, 37);
 
 		frame.getContentPane().add(btnLine);
 
@@ -95,24 +102,30 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				changeColor = 0;
+				saveXML = 0;
 				move = 0;
+				loadXML = 0;
 			}
 		});
-		button.setBounds(121, 28, 97, 37);
+		button.setBounds(76, 28, 52, 37);
 		frame.getContentPane().add(button);
 
 		JButton button_1 = new JButton(new ImageIcon("resources/ellipse-outline-shape-variant.png"));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 3;
+				saveXML = 0;
 				sel = 0;
 				redo = 0;
 				remove = 0;
 				undo = 0;
 				move = 0;
+				changeColor = 0;
+				loadXML = 0;
 			}
 		});
-		button_1.setBounds(230, 28, 97, 37);
+		button_1.setBounds(140, 28, 52, 37);
 		frame.getContentPane().add(button_1);
 
 		JButton button_2 = new JButton(new ImageIcon("resources/ruler.png"));
@@ -121,12 +134,15 @@ public class Gui {
 				drawFlag = 6;
 				sel = 0;
 				redo = 0;
+				saveXML = 0;
 				remove = 0;
 				undo = 0;
 				move = 0;
+				changeColor = 0;
+				loadXML = 0;
 			}
 		});
-		button_2.setBounds(12, 78, 97, 37);
+		button_2.setBounds(204, 28, 52, 37);
 		frame.getContentPane().add(button_2);
 
 		JButton button_3 = new JButton(new ImageIcon("resources/blank-check-box.png"));
@@ -138,23 +154,29 @@ public class Gui {
 				remove = 0;
 				undo = 0;
 				move = 0;
+				changeColor = 0;
+				saveXML = 0;
+				loadXML = 0;
 			}
 		});
-		button_3.setBounds(121, 78, 97, 37);
+		button_3.setBounds(268, 28, 52, 37);
 		frame.getContentPane().add(button_3);
 
 		JButton button_4 = new JButton(new ImageIcon("resources/rectangle.png"));
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawFlag = 4;
+				saveXML = 0;
 				sel = 0;
 				redo = 0;
 				remove = 0;
 				undo = 0;
 				move = 0;
+				changeColor = 0;
+				loadXML = 0;
 			}
 		});
-		button_4.setBounds(230, 78, 97, 37);
+		button_4.setBounds(332, 28, 52, 37);
 		frame.getContentPane().add(button_4);
 
 		JButton btnNewButton = new JButton("Main color");
@@ -166,7 +188,7 @@ public class Gui {
 				c2 = null;
 			}
 		});
-		btnNewButton.setBounds(384, 78, 97, 25);
+		btnNewButton.setBounds(396, 66, 97, 25);
 		frame.getContentPane().add(btnNewButton);
 
 		JButton btnFillColor = new JButton("Fill color");
@@ -178,7 +200,7 @@ public class Gui {
 				c2 = null;
 			}
 		});
-		btnFillColor.setBounds(670, 78, 97, 25);
+		btnFillColor.setBounds(396, 28, 97, 25);
 		frame.getContentPane().add(btnFillColor);
 
 		JButton btnRemove = new JButton("Remove");
@@ -191,6 +213,8 @@ public class Gui {
 				drawFlag = 0;
 				sel = 0;
 				move = 0;
+				saveXML = 0;
+				loadXML = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
@@ -198,7 +222,7 @@ public class Gui {
 
 			}
 		});
-		btnRemove.setBounds(519, 78, 97, 25);
+		btnRemove.setBounds(836, 99, 97, 25);
 		frame.getContentPane().add(btnRemove);
 
 		JButton btnSelecr = new JButton("Select");
@@ -208,13 +232,15 @@ public class Gui {
 				sel = 1;
 				redo = 0;
 				remove = 0;
+				saveXML = 0;
 				changeColor = 0;
 				undo = 0;
 				move = 0;
+				loadXML = 0;
 
 			}
 		});
-		btnSelecr.setBounds(670, 40, 97, 25);
+		btnSelecr.setBounds(574, 0, 97, 25);
 		frame.getContentPane().add(btnSelecr);
 
 		JButton btnUndo = new JButton("Undo");
@@ -225,8 +251,10 @@ public class Gui {
 				sel = 0;
 				redo = 0;
 				remove = 0;
+				saveXML = 0;
 				changeColor = 0;
 				move = 0;
+				loadXML = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
@@ -234,7 +262,7 @@ public class Gui {
 
 			}
 		});
-		btnUndo.setBounds(384, 40, 97, 25);
+		btnUndo.setBounds(836, 0, 97, 25);
 		frame.getContentPane().add(btnUndo);
 
 		JButton btnRedo = new JButton("Redo");
@@ -244,16 +272,18 @@ public class Gui {
 				undo = 0;
 				drawFlag = 0;
 				sel = 0;
+				saveXML = 0;
 				remove = 0;
 				changeColor = 0;
 				move = 0;
+				loadXML = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
 				panel.repaint();
 			}
 		});
-		btnRedo.setBounds(519, 40, 97, 25);
+		btnRedo.setBounds(727, 0, 97, 25);
 		frame.getContentPane().add(btnRedo);
 		
 		JButton btnMove = new JButton("Move");
@@ -261,15 +291,17 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 				drawFlag = 0;
 				sel = 0;
+				saveXML = 0;
 				redo = 0;
 				remove = 0;
 				undo = 0;
 				move = 1;
+				loadXML = 0;
 				changeColor = 0;
 				resize = 0;
 			}
 		});
-		btnMove.setBounds(384, 2, 97, 25);
+		btnMove.setBounds(12, 93, 63, 37);
 		frame.getContentPane().add(btnMove);
 		
 		JButton btnResize = new JButton("Resize");
@@ -280,16 +312,18 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				saveXML = 0;
 				move = 0;
 				resize = 1;
 				changeColor = 0;
+				loadXML = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
 				panel.repaint();
 			}
 		});
-		btnResize.setBounds(519, 2, 97, 25);
+		btnResize.setBounds(87, 93, 69, 37);
 		frame.getContentPane().add(btnResize);
 		
 		JButton btnChangecolor = new JButton("ChangeColor");
@@ -300,9 +334,11 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				saveXML = 0;
 				move = 0;
 				resize = 0;
 				changeColor = 1;
+				loadXML = 0;
 				JColorChooser jcc2 = new JColorChooser ();
 				c2 = jcc2.showDialog(null,"ss", Color.RED);
 				panel.removeAll();
@@ -311,8 +347,95 @@ public class Gui {
 				panel.repaint();
 			}
 		});
-		btnChangecolor.setBounds(670, 2, 111, 25);
+		btnChangecolor.setBounds(168, 93, 105, 37);
 		frame.getContentPane().add(btnChangecolor);
+		
+		JButton btnSavexml = new JButton("SaveXML");
+		btnSavexml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+				saveXML = 1;
+				move = 0;
+				resize = 0;
+				changeColor = 0;
+				loadXML = 0;
+				JFileChooser fs = new JFileChooser(new File("E:\\"));
+				fs.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fs.setDialogTitle("Save");
+				@SuppressWarnings("unused")
+				int result = fs.showSaveDialog(null);
+				File fi = fs.getCurrentDirectory();
+
+				if (fi == null) {
+					JOptionPane.showMessageDialog(null, " No Destination chosen");
+
+				} else {
+					path = fs.getSelectedFile().getPath();
+
+				}
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
+			}
+		});
+		btnSavexml.setBounds(703, 99, 97, 25);
+		frame.getContentPane().add(btnSavexml);
+		
+		JButton btnLoadxml_1 = new JButton("LoadXML");
+		btnLoadxml_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+				saveXML = 0;
+				move = 0;
+				resize = 0;
+				changeColor = 0;
+				loadXML = 1;
+				JFileChooser fs = new JFileChooser(new File("E:\\"));
+				fs.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fs.setDialogTitle("Save");
+				@SuppressWarnings("unused")
+				int result = fs.showSaveDialog(null);
+				File fi = fs.getCurrentDirectory();
+
+				if (fi == null) {
+					JOptionPane.showMessageDialog(null, " No Destination chosen");
+
+				} else {
+					path = fs.getSelectedFile().getPath();
+
+				}
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
+			}
+		});
+		btnLoadxml_1.setBounds(594, 99, 97, 25);
+		frame.getContentPane().add(btnLoadxml_1);
+		
+		JLabel lblSupportedShapes = new JLabel("Supported shapes: -");
+		lblSupportedShapes.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
+		lblSupportedShapes.setBounds(12, 6, 135, 16);
+		frame.getContentPane().add(lblSupportedShapes);
+		
+		JLabel lblAvaiableModification = new JLabel("Avaiable modification: -");
+		lblAvaiableModification.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
+		lblAvaiableModification.setBounds(12, 78, 159, 16);
+		frame.getContentPane().add(lblAvaiableModification);
+		
+		JLabel lblColors = new JLabel("Colors: -");
+		lblColors.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
+		lblColors.setBounds(401, 6, 135, 16);
+		frame.getContentPane().add(lblColors);
 
 	}
 }

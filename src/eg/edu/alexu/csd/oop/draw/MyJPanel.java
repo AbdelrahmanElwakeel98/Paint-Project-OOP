@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
-import eg.edu.alexu.csd.oop.draw.Shape;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 
@@ -125,9 +124,11 @@ public class MyJPanel extends JPanel {
         			pros.put("First", shapeSelected.getProperties().get("SecondX"));
         			pros.put("Second", shapeSelected.getProperties().get("SecondY"));
         			shapeDragging.setProperties(pros);
+        			
+        			shapeSelected = shapeDragging;
 
         			try {
-						d.updateShape((Shape) shapeSelected.clone(),(Shape)  shapeUpdated.clone());
+						d.updateShape(shapeSelected,(Shape)  shapeUpdated.clone());
 					} catch (CloneNotSupportedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -230,14 +231,6 @@ public class MyJPanel extends JPanel {
 					}
 
         			 shapeDragging = s;
-
-        			/*if (Gui.remove == 1) {
-
-        				System.out.print("hhh");
-
-        				d.removeShape(s);
-        				repaint();
-        			}*/
         		}
         	}
          }
@@ -277,7 +270,7 @@ public class MyJPanel extends JPanel {
         }
         
         if (Gui.remove == 1) {
-        	System.out.println("d5l");
+        	shapeSelected = shapeDragging;
         	d.removeShape(shapeSelected);
         	d.refresh(g);
         }
@@ -296,15 +289,27 @@ public class MyJPanel extends JPanel {
         		shapeUpdated.setColor(Gui.c2);
         	} else if (shapeSelected.getFillColor() != null) {
         		shapeUpdated.setFillColor(Gui.c2);
+        	} else {
+        		shapeUpdated.setColor(Gui.c2);
         	}
         	
+        	shapeSelected = shapeDragging;
         	try {
-				d.updateShape((Shape) shapeSelected.clone(),(Shape)  shapeUpdated.clone());
+				d.updateShape(shapeSelected,(Shape)  shapeUpdated.clone());
 			} catch (CloneNotSupportedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
         	
+        	d.refresh(g);
+        }
+        if (Gui.saveXML == 1) {
+        	d.save(Gui.path);
+        	d.refresh(g);
+        }
+        
+        if (Gui.loadXML == 1) {
+        	d.load(Gui.path);
         	d.refresh(g);
         }
 }

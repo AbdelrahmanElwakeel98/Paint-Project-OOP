@@ -14,13 +14,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import eg.edu.alexu.csd.oop.cs03_cs22.Circle;
-import eg.edu.alexu.csd.oop.cs03_cs22.Ellipse;
-import eg.edu.alexu.csd.oop.cs03_cs22.IShape;
-import eg.edu.alexu.csd.oop.cs03_cs22.LineSegment;
-import eg.edu.alexu.csd.oop.cs03_cs22.Rect;
-import eg.edu.alexu.csd.oop.cs03_cs22.Square;
-import eg.edu.alexu.csd.oop.cs03_cs22.Triangle;
+import eg.edu.alexu.csd.oop.draw.Circle;
+import eg.edu.alexu.csd.oop.draw.Ellipse;
+import eg.edu.alexu.csd.oop.draw.IShape;
+import eg.edu.alexu.csd.oop.draw.LineSegment;
+import eg.edu.alexu.csd.oop.draw.Rect;
+import eg.edu.alexu.csd.oop.draw.Square;
+import eg.edu.alexu.csd.oop.draw.Triangle;
 
 import java.awt.Canvas;
 import java.awt.Color;

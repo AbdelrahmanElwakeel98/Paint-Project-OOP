@@ -66,6 +66,8 @@ public class SanityTest {
             //TestRunner.fail("Engine didn't update an existing shape", e);
         }
         
+        System.out.println( instance.getShapes().length);
+        
         assertEquals("Wrong number of returned shapes after update", 1, instance.getShapes().length);
         
         try {
@@ -122,9 +124,11 @@ public class SanityTest {
         
         for (int i = 1; i <= 21; i++)
             instance.addShape(new DummyShape());
+       // System.out.println(instance.getShapes().length);
         for (int i = 1; i <= 20; i++)
             instance.undo();
         assertEquals("Wrong number of returned shapes after many undo", 1, instance.getShapes().length);
+      
         for (int i = 1; i <= 20; i++)
             instance.redo();
         assertEquals("Wrong number of returned shapes after many redo", 21, instance.getShapes().length);
@@ -135,6 +139,7 @@ public class SanityTest {
         try {
             instance.undo();
         } catch (Throwable e) {}
+        System.out.println(instance.getShapes().length);
         assertEquals("Wrong number of returned shapes after undo", 1, instance.getShapes().length);
         
         instance.addShape(new DummyShape());

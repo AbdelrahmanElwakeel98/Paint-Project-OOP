@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,16 +6,12 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 
-import eg.edu.alexu.csd.oop.draw.Shape;
-
 public class IShape implements Shape, Cloneable {
 
 	private Point position;
 	private Color c;
 	private Color c1;
 	private Map<String, Double> propertie = new HashMap< String, Double>();
-
-
 
 	@Override
 	public void setPosition(Point position) {

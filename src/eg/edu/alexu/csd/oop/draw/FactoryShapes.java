@@ -1,6 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
-
-import eg.edu.alexu.csd.oop.draw.Shape;
+package eg.edu.alexu.csd.oop.draw;
 
 public class FactoryShapes {
 	

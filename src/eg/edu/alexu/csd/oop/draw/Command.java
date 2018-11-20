@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 public interface Command {
 	

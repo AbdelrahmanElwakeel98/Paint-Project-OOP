@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +11,9 @@ public class LineSegment extends IShape{
 
 
 	public LineSegment() {
-		super();
+		Map<String, Double> propert = new HashMap< String, Double>();
+		propert.put("length", (double) 0);
+		setProperties(propert);
 	}
 
 	@Override
@@ -41,7 +43,9 @@ public class LineSegment extends IShape{
 			canvas.setColor(Color.BLACK);
 		}
 
-
+  
+		canvas.setColor(Color.BLACK);
+		
 		if ((int) SecondX < x) {
 			if ( (int) SecondY < y ) {
 				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
@@ -61,6 +65,7 @@ public class LineSegment extends IShape{
 			}
 
 		}
+		canvas.drawLine(x, y,(int) SecondX,(int)SecondY);
 	}
 
 	public Object clone() throws CloneNotSupportedException{

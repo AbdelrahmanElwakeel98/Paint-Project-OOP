@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.cs03_cs22;
+package eg.edu.alexu.csd.oop.draw;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Square extends IShape{
+	
+	public Square() {
+		Map<String, Double> propert = new HashMap< String, Double>();
+		propert.put("length", (double) 0);
+		setProperties(propert);
+	}
 
 	@Override
 	public void draw(Graphics canvas) {
