@@ -33,6 +33,7 @@ public class MyJPanel extends JPanel {
 	Shape shapeUpdated = null;
 	Shape shapeSelected = null;
 	Point oldPoint = null;
+	private Map<String, Double> resizePros = new HashMap< String, Double>();
 
 
 	public MyJPanel() {
@@ -46,12 +47,24 @@ public class MyJPanel extends JPanel {
             			shape = factoryShape.getShape(Gui.drawFlag);
             			shape.setPosition(point);
             		}
-            	} else if (Gui.drawFlag == 0 && Gui.sel == 1) {
+            	} else if (Gui.sel == 1) {
             	    point = null;
             		point = getMousePosition();
             		repaint();
-        		}  else if (Gui.move == 1) {
-
+        		}  else if (Gui.resize == 1) {
+        			resizePros.put("First", (double) e.getX());
+        			resizePros.put("Second", (double) e.getY());
+        			
+        			shapeUpdated.setPosition(shapeSelected.getPosition());
+        			shapeUpdated.setProperties(resizePros);
+        			
+        			try {
+						d.updateShape( (Shape) shapeSelected.clone(), (Shape) shapeUpdated.clone());
+					} catch (CloneNotSupportedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+        			repaint();
         		}
             }
 
@@ -62,6 +75,15 @@ public class MyJPanel extends JPanel {
             			properties.put("First", (double) e.getX());
             			properties.put("Second", (double) e.getY());
             			shape.setProperties(properties);
+            			if (Gui.c != null) {
+            				shape.setColor(Gui.c);
+            			}
+            			
+            			if (Gui.c1 != null) {
+            				System.out.println("d5l");
+            				shape.setFillColor(Gui.c1);
+            			}
+            			
             			try {
 							d.addShape((Shape) shape.clone());
 						} catch (CloneNotSupportedException e1) {
@@ -91,6 +113,12 @@ public class MyJPanel extends JPanel {
         			}
         			shapeUpdated.setPosition(point);
         			shapeUpdated.setProperties(properties);
+        			
+        			if (shapeSelected.getColor() != null) {
+        				shapeUpdated.setColor(shapeSelected.getColor());
+        			} else if (shapeSelected.getFillColor() != null) {
+        				shapeUpdated.setFillColor(shapeSelected.getFillColor() );
+        			}
 
         			shapeDragging.setPosition(shapeSelected.getPosition());
         			Map<String, Double> pros = new HashMap< String, Double>();
@@ -203,13 +231,13 @@ public class MyJPanel extends JPanel {
 
         			 shapeDragging = s;
 
-        			if (Gui.remove == 1) {
+        			/*if (Gui.remove == 1) {
 
         				System.out.print("hhh");
 
         				d.removeShape(s);
         				repaint();
-        			}
+        			}*/
         		}
         	}
          }
@@ -246,6 +274,38 @@ public class MyJPanel extends JPanel {
         if (Gui.move == 1) {
         	d.refresh(g);
         	point = null;
+        }
+        
+        if (Gui.remove == 1) {
+        	System.out.println("d5l");
+        	d.removeShape(shapeSelected);
+        	d.refresh(g);
+        }
+        
+        if (Gui.resize == 1) {
+        	d.refresh(g);
+        }
+        
+        if (Gui.changeColor == 1) {
+        	shapeUpdated.setPosition(shapeSelected.getPosition());
+        	Map<String, Double> pros = new HashMap< String, Double>();
+			pros.put("First", shapeSelected.getProperties().get("SecondX"));
+			pros.put("Second", shapeSelected.getProperties().get("SecondY"));
+        	shapeUpdated.setProperties(pros);
+        	if (shapeSelected.getColor() != null) {
+        		shapeUpdated.setColor(Gui.c2);
+        	} else if (shapeSelected.getFillColor() != null) {
+        		shapeUpdated.setFillColor(Gui.c2);
+        	}
+        	
+        	try {
+				d.updateShape((Shape) shapeSelected.clone(),(Shape)  shapeUpdated.clone());
+			} catch (CloneNotSupportedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	d.refresh(g);
         }
 }
 }

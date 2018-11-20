@@ -12,6 +12,7 @@ public class IShape implements Shape, Cloneable {
 
 	private Point position;
 	private Color c;
+	private Color c1;
 	private Map<String, Double> propertie = new HashMap< String, Double>();
 
 
@@ -50,14 +51,12 @@ public class IShape implements Shape, Cloneable {
 
 	@Override
 	public void setFillColor(Color color) {
-		// TODO Auto-generated method stub
-
+		this.c1 = color;
 	}
 
 	@Override
 	public Color getFillColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return c1;
 	}
 
 	@Override

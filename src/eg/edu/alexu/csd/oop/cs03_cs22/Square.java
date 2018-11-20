@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.cs03_cs22;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -23,6 +24,17 @@ public class Square extends IShape{
 		properties = getProperties();
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
+		
+		Color c = getColor();
+		Color c1 = getFillColor();
+
+		if (c != null) {
+			canvas.setColor(c);
+		} else if (c1 != null) {
+			canvas.setColor(c1);
+		} else {
+			canvas.setColor(Color.BLACK);
+		}
 
 
 		if ((int) SecondX < x) {
@@ -30,11 +42,25 @@ public class Square extends IShape{
 				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
 				x1 = x - (int) Point2D.distance(x, y, x, SecondY);
 				canvas.setClip(x1, y1, (int) Point2D.distance(x, y, x, SecondY) +1, (int) Point2D.distance(x, y, x, SecondY) + 1);
-				canvas.drawRect(x1, y1, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				if (c != null) {
+					canvas.drawRect(x1, y1, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillRect(x1, y1, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawRect(x1, y1, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				}
+				
 			} else {
 			x1 = x - (int) Point2D.distance(x, y, x, SecondY);
 			canvas.setClip(x1, y, (int) Point2D.distance(x, y, x, SecondY) + 1, (int) Point2D.distance(x, y, x, SecondY) + 1);
-			canvas.drawRect(x1, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+			if (c != null) {
+				canvas.drawRect(x1, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+			} else if (c1 != null) {
+				canvas.fillRect(x1, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+			} else {
+				canvas.drawRect(x1, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+			}
+			
 
 			}
 		} else {
@@ -44,7 +70,14 @@ public class Square extends IShape{
 				canvas.drawRect(x, y1, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
 			} else {
 				canvas.setClip(x, y, (int) Point2D.distance(x, y, x, SecondY) + 1, (int) Point2D.distance(x, y, x, SecondY) + 1);
-				canvas.drawRect(x, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				if (c != null) {
+					canvas.drawRect(x, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillRect(x, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawRect(x, y, (int) Point2D.distance(x, y, x, SecondY), (int) Point2D.distance(x, y, x, SecondY));
+				}
+				
 			}
 
 		}

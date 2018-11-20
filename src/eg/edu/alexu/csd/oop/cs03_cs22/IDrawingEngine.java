@@ -58,6 +58,8 @@ public class IDrawingEngine implements DrawingEngine {
 		private IDrawingEngine engine;
 		private Shape s;
 		private int counter;
+		private Class cls1, cls2;
+
 
 		private RemoveShapeCommand(IDrawingEngine engine, Shape s, int counter) {
 			this.engine = engine;
@@ -67,12 +69,24 @@ public class IDrawingEngine implements DrawingEngine {
 
 		@Override
 		public void execute() {
+			
 			for(int i = 0; i < engine.shapes.length; i++){
-	            if(engine.shapes[i] == this.s){
-	            	engine.shapes = removeElementUsingCollection(engine.shapes, i);
-	                break;
-	            }
-	        }
+	            
+				if (engine.shapes[i] == null) {
+					break;
+				}
+				cls1 = engine.shapes[i].getClass();
+            	cls2 = this.s.getClass();
+            	if (cls1.getName().equals(cls2.getName())) {
+            		if (engine.shapes[i].getPosition().getX() == this.s.getPosition().getX() &&
+            				engine.shapes[i].getPosition().getY() == this.s.getPosition().getY()) {
+            			if (engine.shapes[i].getProperties().get("SecondX").equals(this.s.getProperties().get("SecondX")) &&
+            					engine.shapes[i].getProperties().get("SecondY").equals(this.s.getProperties().get("SecondY") )) {
+            				engine.shapes = removeElementUsingCollection(engine.shapes, i);
+        	                break;}
+            			}
+            		}
+            	}
 			this.counter = this.counter - 1;
 			engine.counter = this.counter;
 		}
@@ -140,10 +154,15 @@ public class IDrawingEngine implements DrawingEngine {
 				cls1 = engine.shapes[i].getClass();
             	cls2 = this.newShape.getClass();
             	if (cls1.getName().equals(cls2.getName())) {
+            		System.out.println("Yes1");
             		if (engine.shapes[i].getPosition().getX() == this.newShape.getPosition().getX() &&
             				engine.shapes[i].getPosition().getY() == this.newShape.getPosition().getY()) {
+            			System.out.println("Yes2");
             			if (engine.shapes[i].getProperties().get("SecondX").equals(this.newShape.getProperties().get("SecondX")) &&
             					engine.shapes[i].getProperties().get("SecondY").equals(this.newShape.getProperties().get("SecondY") )) {
+            				System.out.println("Yes3");
+            				System.out.println(this.oldShape.getFillColor());
+            				System.out.println(engine);
             				try {
 								engine.shapes[i] = (Shape) this.oldShape.clone();
 							} catch (CloneNotSupportedException e) {

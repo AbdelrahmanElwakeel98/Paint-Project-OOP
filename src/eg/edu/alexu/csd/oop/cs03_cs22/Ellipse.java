@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.cs03_cs22;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Shape;
@@ -24,26 +25,65 @@ public class Ellipse extends IShape {
 		properties = getProperties();
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
+		
+		Color c = getColor();
+		Color c1 = getFillColor();
 
+		if (c != null) {
+			canvas.setColor(c);
+		} else if (c1 != null) {
+			canvas.setColor(c1);
+		} else {
+			canvas.setColor(Color.BLACK);
+		}
+		
 		if ((int) SecondX < x) {
 			if ( (int) SecondY < y ) {
 				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
 				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
 				canvas.setClip(x1, y1, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
-				canvas.drawOval(x1, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				if (c != null) {
+					canvas.drawOval(x1, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillOval(x1, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawOval(x1, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				}
+				
 			} else {
 				x1 = x - (int) Point2D.distance(x, y, SecondX, y);
 				canvas.setClip(x1, y, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
-				canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				if (c != null) {
+					canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawOval(x1, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				}
+				
 			}
 		} else {
 			if ( (int) SecondY < y) {
 				y1 = y - (int) Point2D.distance(x, y, x, SecondY);
 		      canvas.setClip(x, y1, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
-		      canvas.drawOval(x, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+		      if (c != null) {
+		    	  canvas.drawOval(x, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillOval(x, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawOval(x, y1, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				}
+		      
 			} else {
 				canvas.setClip(x, y, (int) Point2D.distance(x, y, SecondX, y)+ 1, (int) Point2D.distance(x, y, x, SecondY)+ 1);
-				canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				if (c != null) {
+					canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else if (c1 != null) {
+					canvas.fillOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				} else {
+					canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
+				}
+				
 			}
 		}
 	}

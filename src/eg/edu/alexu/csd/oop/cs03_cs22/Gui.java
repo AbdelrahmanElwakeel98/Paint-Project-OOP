@@ -29,7 +29,10 @@ public class Gui {
 
 	private JFrame frame;
 	public static int drawFlag = 0;
-	public static int sel = 0, remove = 0, undo = 0, redo = 0, move = 0;
+	public static int sel = 0, remove = 0, undo = 0, redo = 0, move = 0, resize = 0, changeColor = 0;
+	public static Color c = null;
+	public static Color c1 = null;
+	public static Color c2 = null;
 
 	/**
 	 * Launch the application.
@@ -158,10 +161,9 @@ public class Gui {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JColorChooser jcc = new JColorChooser ();
-				Color c = jcc.showDialog(null,"ss", Color.RED);
-				panel.setBackground(c);
-
-
+				c = jcc.showDialog(null,"ss", Color.RED);
+				c1 = null;
+				c2 = null;
 			}
 		});
 		btnNewButton.setBounds(384, 78, 97, 25);
@@ -171,8 +173,9 @@ public class Gui {
 		btnFillColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JColorChooser jcc1 = new JColorChooser ();
-				Color c1 = jcc1.showDialog(null,"ss", Color.RED);
-				panel.setBackground(c1);
+				c1 = jcc1.showDialog(null,"ss", Color.RED);
+				c = null;
+				c2 = null;
 			}
 		});
 		btnFillColor.setBounds(670, 78, 97, 25);
@@ -184,8 +187,14 @@ public class Gui {
 				remove = 1;
 				redo = 0;
 				undo = 0;
+				changeColor = 0;
 				drawFlag = 0;
+				sel = 0;
 				move = 0;
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
 
 			}
 		});
@@ -199,6 +208,7 @@ public class Gui {
 				sel = 1;
 				redo = 0;
 				remove = 0;
+				changeColor = 0;
 				undo = 0;
 				move = 0;
 
@@ -215,6 +225,7 @@ public class Gui {
 				sel = 0;
 				redo = 0;
 				remove = 0;
+				changeColor = 0;
 				move = 0;
 				panel.removeAll();
 				//add your elements
@@ -234,6 +245,7 @@ public class Gui {
 				drawFlag = 0;
 				sel = 0;
 				remove = 0;
+				changeColor = 0;
 				move = 0;
 				panel.removeAll();
 				//add your elements
@@ -253,10 +265,54 @@ public class Gui {
 				remove = 0;
 				undo = 0;
 				move = 1;
+				changeColor = 0;
+				resize = 0;
 			}
 		});
 		btnMove.setBounds(384, 2, 97, 25);
 		frame.getContentPane().add(btnMove);
+		
+		JButton btnResize = new JButton("Resize");
+		btnResize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+				move = 0;
+				resize = 1;
+				changeColor = 0;
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
+			}
+		});
+		btnResize.setBounds(519, 2, 97, 25);
+		frame.getContentPane().add(btnResize);
+		
+		JButton btnChangecolor = new JButton("ChangeColor");
+		btnChangecolor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+				move = 0;
+				resize = 0;
+				changeColor = 1;
+				JColorChooser jcc2 = new JColorChooser ();
+				c2 = jcc2.showDialog(null,"ss", Color.RED);
+				panel.removeAll();
+				//add your elements
+				panel.revalidate();
+				panel.repaint();
+			}
+		});
+		btnChangecolor.setBounds(670, 2, 111, 25);
+		frame.getContentPane().add(btnChangecolor);
 
 	}
 }

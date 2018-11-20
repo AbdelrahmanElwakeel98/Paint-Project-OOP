@@ -30,7 +30,16 @@ public class LineSegment extends IShape{
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
 
-		canvas.setColor(Color.BLACK);
+		Color c = getColor();
+		Color c1 = getFillColor();
+
+		if (c != null) {
+			canvas.setColor(c);
+		} else if (c1 != null) {
+			canvas.setColor(c1);
+		} else {
+			canvas.setColor(Color.BLACK);
+		}
 
 
 		if ((int) SecondX < x) {
@@ -52,10 +61,8 @@ public class LineSegment extends IShape{
 			}
 
 		}
-
-		canvas.drawLine(x, y, (int) SecondX, (int) SecondY);
 	}
-	
+
 	public Object clone() throws CloneNotSupportedException{
 		LineSegment e = new LineSegment();
 		Map<String, Double> pros = new HashMap< String, Double>();
@@ -65,7 +72,7 @@ public class LineSegment extends IShape{
 		e.setProperties(pros);
 		e.setColor(this.getColor());
 		e.setFillColor(this.getFillColor());
-		
+
 		return e;
 	}
 }
