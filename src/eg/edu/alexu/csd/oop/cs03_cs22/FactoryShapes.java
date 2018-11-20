@@ -13,7 +13,7 @@ public class FactoryShapes {
 		
 		case 3 : return new Ellipse();
 		
-		case 4 : return new Rectangle();
+		case 4 : return new Rect();
 		
 		case 5 : return new Square();
 		

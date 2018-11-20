@@ -46,6 +46,18 @@ public class Ellipse extends IShape {
 				canvas.drawOval(x, y, (int) Point2D.distance(x, y, SecondX, y), (int) Point2D.distance(x, y, x, SecondY));
 			}
 		}
-
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Ellipse e = new Ellipse();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
 	}
 }

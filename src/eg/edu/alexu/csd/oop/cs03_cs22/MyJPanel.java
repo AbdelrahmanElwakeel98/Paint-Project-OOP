@@ -20,64 +20,143 @@ import java.awt.Stroke;
 
 public class MyJPanel extends JPanel {
 
-	static IDrawingEngine d = new IDrawingEngine();
+	private IDrawingEngine d = new IDrawingEngine();
     private Point point;
 	private   Map<String, Double> properties = new HashMap< String, Double>();
+	private   Map<String, Double> oldProperties = new HashMap< String, Double>();
 	FactoryShapes factoryShape = new FactoryShapes();
 	Shape shape = null;
 	Rectangle rect = null;
-
+	Shape shapeDragged = null;
+	Shape shapeDragging = null;
+	boolean dragging = false;
+	Shape shapeUpdated = null;
+	Shape shapeSelected = null;
+	Point oldPoint = null;
 
 
 	public MyJPanel() {
 		addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-
             	if (Gui.drawFlag != 0) {
             		if (point == null) {
             			point = getMousePosition();
-            		} else {
-            			properties.put("First", getMousePosition().getX());
-            			properties.put("Second", getMousePosition().getY());
-
+            			shapeDragged = factoryShape.getShape(Gui.drawFlag);
+            			shapeDragged.setPosition(point);
             			shape = factoryShape.getShape(Gui.drawFlag);
             			shape.setPosition(point);
-            			shape.setProperties(properties);
+            		}
+            	} else if (Gui.drawFlag == 0 && Gui.sel == 1) {
+            	    point = null;
+            		point = getMousePosition();
+            		repaint();
+        		}  else if (Gui.move == 1) {
 
+        		}
+            }
+
+            public void mouseReleased(MouseEvent e) {
+            	dragging = false;
+            	if (Gui.drawFlag != 0) {
+            		if (shape.getPosition() != null) {
+            			properties.put("First", (double) e.getX());
+            			properties.put("Second", (double) e.getY());
+            			shape.setProperties(properties);
             			try {
 							d.addShape((Shape) shape.clone());
 						} catch (CloneNotSupportedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
             			repaint();
             		}
-            	} else if (Gui.drawFlag == 0 && Gui.sel == 1) {
-            	    point = null;
-            		point = getMousePosition();
-            		repaint();
-        		} 
+            	}
+            	if (Gui.move == 1) {
+        			point = null;
+        			oldPoint = shapeDragging.getPosition();
+        			oldProperties = shapeDragging.getProperties();
+        			point = getMousePosition();
+        			if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() >= point.getY()) {
+        				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+            			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+        			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() >= point.getY()) {
+        				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+            			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+        			} else if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() <= point.getY()) {
+        				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+        				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+        			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() <= point.getY()) {
+        				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+        				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+        			}
+        			shapeUpdated.setPosition(point);
+        			shapeUpdated.setProperties(properties);
+
+        			shapeDragging.setPosition(shapeSelected.getPosition());
+        			Map<String, Double> pros = new HashMap< String, Double>();
+        			pros.put("First", shapeSelected.getProperties().get("SecondX"));
+        			pros.put("Second", shapeSelected.getProperties().get("SecondY"));
+        			shapeDragging.setProperties(pros);
+
+        			try {
+						d.updateShape((Shape) shapeSelected.clone(),(Shape)  shapeUpdated.clone());
+					} catch (CloneNotSupportedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+        			repaint();
+        		}
             }
         });
 
-
 		addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
+            	if (Gui.drawFlag != 0) {
+            	dragging = true;
+            	properties.put("First", (double) e.getX());
+    			properties.put("Second", (double) e.getY());
+    			shapeDragged.setProperties(properties);
+    			repaint();
+            	}
 
+            	if (Gui.move == 1) {
+                dragging = true;
+                point = null;
+       			oldPoint = shapeDragging.getPosition();
+       			oldProperties = shapeDragging.getProperties();
+       			point = getMousePosition();
+       			if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() >= point.getY()) {
+       				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+           			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+       			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() >= point.getY()) {
+       				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+           			properties.put("Second", oldProperties.get("SecondY") - (oldPoint.getY() - point.getY()));
+       			} else if ((oldPoint.getX() <= point.getX()) && oldPoint.getY() <= point.getY()) {
+       				properties.put("First", oldProperties.get("SecondX") + (point.getX() - oldPoint.getX()));
+       				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+       			} else if ((oldPoint.getX() >= point.getX()) && oldPoint.getY() <= point.getY()) {
+       				properties.put("First", oldProperties.get("SecondX") - (oldPoint.getX() - point.getX()));
+       				properties.put("Second", oldProperties.get("SecondY") + (point.getY() - oldPoint.getY()));
+       			}
+       			shapeDragging.setPosition(point);
+       			shapeDragging.setProperties(properties);
+
+       			repaint();
+            	}
             }
         });
 	}
 
 	protected void paintComponent(Graphics g) {
-		
+
         super.paintComponent(g);
-        
-        
+
+
         if (point != null && !properties.isEmpty() && Gui.drawFlag != 0) {
         Shape[] shapes = d.getShapes();
         for (Shape shape : shapes) {
         	if (shape == null) {
+
         		break;
         	}
         		 shape.draw(g);
@@ -89,7 +168,6 @@ public class MyJPanel extends JPanel {
         	Shape[] sh = d.getShapes();
         	for (Shape s : sh) {
         		if (s == null) {
-        			
         			break;
         		}
         		s.draw(g);
@@ -100,33 +178,74 @@ public class MyJPanel extends JPanel {
         			 g2.setStroke(dashed);
         			 s.draw(g2);
         			 g2.setStroke(new BasicStroke());
+
+        			 Class cls = s.getClass();
+
+        			 if (cls == LineSegment.class) {
+        				 shapeUpdated = factoryShape.getShape(1);
+        			 } else if (cls == Circle.class) {
+        				 shapeUpdated = factoryShape.getShape(2);
+        			 } else if (cls == Ellipse.class) {
+        				 shapeUpdated = factoryShape.getShape(3);
+        			 } else if (cls == Rect.class) {
+        				 shapeUpdated = factoryShape.getShape(4);
+        			 } else if (cls == Square.class) {
+        				 shapeUpdated = factoryShape.getShape(5);
+        			 } else if (cls  == Triangle.class) {
+        				 shapeUpdated = factoryShape.getShape(6);
+        			 }
+        			 try {
+						shapeSelected = (Shape) s.clone();
+					} catch (CloneNotSupportedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+        			 shapeDragging = s;
+
         			if (Gui.remove == 1) {
-        				
+
         				System.out.print("hhh");
-        				
+
         				d.removeShape(s);
         				repaint();
         			}
         		}
         	}
          }
-        
+
         if (Gui.undo == 1) {
         	d.undo();
         	d.refresh(g);
         	point = null;
         }
-        
+
         if (Gui.redo == 1) {
         	d.redo();
         	d.refresh(g);
         	point = null;
         }
 
+        if (dragging && Gui.drawFlag != 0) {
+        	shapeDragged.draw(g);
+        	d.refresh(g);
+        	point = null;
+        }
 
+        if (Gui.drawFlag != 0) {
+        	d.refresh(g);
+        	point = null;
+        }
 
+        if (Gui.move == 1 && dragging) {
+        	shapeDragging.draw(g);
+        	d.refresh(g);
+        	point = null;
+        }
+
+        if (Gui.move == 1) {
+        	d.refresh(g);
+        	point = null;
+        }
 }
-
-
-
 }

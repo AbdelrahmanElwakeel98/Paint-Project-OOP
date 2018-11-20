@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Rectangle extends IShape{
+public class Rect extends IShape{
 
 	@Override
 	public void draw(Graphics canvas) {
@@ -14,13 +14,15 @@ public class Rectangle extends IShape{
 		super.draw(canvas);
 		Point point;
 		point = super.getPosition();
+		//System.out.println(point);
 		int x = (int) point.getX();
 		int y = (int) point.getY();
 		int x1 = 0;
 		int y1 =0;
 
 		Map<String, Double> properties = new HashMap< String, Double>();
-		properties = getProperties();
+		properties = super.getProperties();
+		//System.out.println(properties);
 		double SecondX = properties.get("SecondX");
 		double SecondY = properties.get("SecondY");
 
@@ -55,5 +57,18 @@ public class Rectangle extends IShape{
 
 
 
+	}
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+		Rect e = new Rect();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
 	}
 }

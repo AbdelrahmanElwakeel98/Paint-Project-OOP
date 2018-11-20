@@ -48,4 +48,17 @@ public class Circle extends IShape{
 		}
 
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Circle e = new Circle();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
+	}
 }

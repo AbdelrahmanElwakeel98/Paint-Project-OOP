@@ -9,12 +9,12 @@ import java.util.Map;
 import eg.edu.alexu.csd.oop.draw.Shape;
 
 public class IShape implements Shape, Cloneable {
-	
-	Point position;
-	Color c;
-	Map<String, Double> properties = new HashMap< String, Double>(); 
-	
-	
+
+	private Point position;
+	private Color c;
+	private Map<String, Double> propertie = new HashMap< String, Double>();
+
+
 
 	@Override
 	public void setPosition(Point position) {
@@ -28,19 +28,19 @@ public class IShape implements Shape, Cloneable {
 
 	@Override
 	public void setProperties(Map<String, Double> properties) {
-		this.properties.put("SecondX", properties.get("First"));
-		this.properties.put("SecondY", properties.get("Second"));
+		this.propertie.put("SecondX", properties.get("First"));
+		this.propertie.put("SecondY", properties.get("Second"));
 	}
 
 	@Override
 	public Map<String, Double> getProperties() {
-		return properties;
+		return propertie;
 	}
 
 	@Override
 	public void setColor(Color color) {
 		this.c = color;
-		
+
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class IShape implements Shape, Cloneable {
 	@Override
 	public void setFillColor(Color color) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -63,15 +63,11 @@ public class IShape implements Shape, Cloneable {
 	@Override
 	public void draw(Graphics canvas) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException{
-		return (Shape) super.clone();  
-		
+		return null;
 	}
-	
-	
-
 }

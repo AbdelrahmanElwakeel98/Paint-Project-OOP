@@ -54,11 +54,18 @@ public class LineSegment extends IShape{
 		}
 
 		canvas.drawLine(x, y, (int) SecondX, (int) SecondY);
-
-
-
-
-
-
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		LineSegment e = new LineSegment();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
 	}
 }

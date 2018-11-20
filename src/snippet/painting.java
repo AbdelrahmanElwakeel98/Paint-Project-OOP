@@ -18,7 +18,7 @@ import eg.edu.alexu.csd.oop.cs03_cs22.Circle;
 import eg.edu.alexu.csd.oop.cs03_cs22.Ellipse;
 import eg.edu.alexu.csd.oop.cs03_cs22.IShape;
 import eg.edu.alexu.csd.oop.cs03_cs22.LineSegment;
-import eg.edu.alexu.csd.oop.cs03_cs22.Rectangle;
+import eg.edu.alexu.csd.oop.cs03_cs22.Rect;
 import eg.edu.alexu.csd.oop.cs03_cs22.Square;
 import eg.edu.alexu.csd.oop.cs03_cs22.Triangle;
 

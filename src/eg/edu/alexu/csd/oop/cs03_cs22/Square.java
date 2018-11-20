@@ -48,8 +48,19 @@ public class Square extends IShape{
 			}
 
 		}
-
-
-
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+		Square e = new Square();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
 	}
 }

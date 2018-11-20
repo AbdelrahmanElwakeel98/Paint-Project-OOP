@@ -14,14 +14,14 @@ public class IDrawingEngine implements DrawingEngine {
 	private Shape[] shapes = new Shape[100];
 	private int counter = 0;
 	private CommandManager commandManager = new CommandManager();
-	
-	
+
+
 	private class AddShapeCommand implements Command{
-		
+
 		private IDrawingEngine engine;
 		private Shape s;
 		private int counter;
-		
+
 		private AddShapeCommand(IDrawingEngine engine, Shape s, int counter) {
 			this.engine = engine;
 			this.s = s;
@@ -40,7 +40,7 @@ public class IDrawingEngine implements DrawingEngine {
 			engine.shapes[this.counter - 1] = null;
 			this.counter = this.counter - 1;
 			engine.counter = this.counter;
-			
+
 		}
 
 		@Override
@@ -48,17 +48,17 @@ public class IDrawingEngine implements DrawingEngine {
 			this.counter = this.counter + 1;
 			engine.shapes[this.counter] = this.s;
 			engine.counter = this.counter;
-			
+
 		}
-		
+
 	}
-	
+
 	private class RemoveShapeCommand implements Command{
-		
+
 		private IDrawingEngine engine;
 		private Shape s;
 		private int counter;
-		
+
 		private RemoveShapeCommand(IDrawingEngine engine, Shape s, int counter) {
 			this.engine = engine;
 			this.s = s;
@@ -90,15 +90,16 @@ public class IDrawingEngine implements DrawingEngine {
 			this.counter = this.counter - 1;
 			engine.counter = this.counter;
 		}
-		
+
 	}
-	
+
 	private class UpdateShapeCommand implements Command{
-		
+
 		private IDrawingEngine engine;
 		private Shape newShape;
 		private Shape oldShape;
-		
+		private Class cls1, cls2;
+
 		private UpdateShapeCommand(IDrawingEngine engine, Shape newShape, Shape oldShape) {
 			this.engine = engine;
 			this.newShape = newShape;
@@ -108,32 +109,80 @@ public class IDrawingEngine implements DrawingEngine {
 		@Override
 		public void execute() {
 			for(int i = 0; i < engine.shapes.length; i++){
-	            if(engine.shapes[i] == this.oldShape){
-	            	engine.shapes[i] = this.newShape;
-	            }
+				if (engine.shapes[i] == null) {
+					break;
+				}
+				cls1 = engine.shapes[i].getClass();
+            	cls2 = this.oldShape.getClass();
+            	if (cls1.getName().equals(cls2.getName())) {
+            		if (engine.shapes[i].getPosition().getX() == this.oldShape.getPosition().getX() &&
+            				engine.shapes[i].getPosition().getY() == this.oldShape.getPosition().getY()) {
+            			if (engine.shapes[i].getProperties().get("SecondX").equals(this.oldShape.getProperties().get("SecondX")) &&
+            					engine.shapes[i].getProperties().get("SecondY").equals(this.oldShape.getProperties().get("SecondY") )) {
+            				try {
+								engine.shapes[i] = (Shape) this.newShape.clone();
+							} catch (CloneNotSupportedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+            			}
+            		}
+            	}
 	        }
 		}
 
 		@Override
 		public void undo() {
 			for(int i = 0; i < engine.shapes.length; i++){
-	            if(engine.shapes[i] == this.newShape){
-	            	engine.shapes[i] = this.oldShape;
-	            }
+				if (engine.shapes[i] == null) {
+					break;
+				}
+				cls1 = engine.shapes[i].getClass();
+            	cls2 = this.newShape.getClass();
+            	if (cls1.getName().equals(cls2.getName())) {
+            		if (engine.shapes[i].getPosition().getX() == this.newShape.getPosition().getX() &&
+            				engine.shapes[i].getPosition().getY() == this.newShape.getPosition().getY()) {
+            			if (engine.shapes[i].getProperties().get("SecondX").equals(this.newShape.getProperties().get("SecondX")) &&
+            					engine.shapes[i].getProperties().get("SecondY").equals(this.newShape.getProperties().get("SecondY") )) {
+            				try {
+								engine.shapes[i] = (Shape) this.oldShape.clone();
+							} catch (CloneNotSupportedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+            			}
+            		}
+            	}
 	        }
-			
+
 		}
 
 		@Override
 		public void redo() {
 			for(int i = 0; i < engine.shapes.length; i++){
-	            if(engine.shapes[i] == this.oldShape){
-	            	engine.shapes[i] = this.newShape;
-	            }
+				if (engine.shapes[i] == null) {
+					break;
+				}
+				cls1 = engine.shapes[i].getClass();
+            	cls2 = this.oldShape.getClass();
+            	if (cls1.getName().equals(cls2.getName())) {
+            		if (engine.shapes[i].getPosition().getX() == this.oldShape.getPosition().getX() &&
+            				engine.shapes[i].getPosition().getY() == this.oldShape.getPosition().getY()) {
+            			if (engine.shapes[i].getProperties().get("SecondX").equals(this.oldShape.getProperties().get("SecondX")) &&
+            					engine.shapes[i].getProperties().get("SecondY").equals(this.oldShape.getProperties().get("SecondY") )) {
+            				try {
+								engine.shapes[i] = (Shape) this.newShape.clone();
+							} catch (CloneNotSupportedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+            			}
+            		}
+            	}
 	        }
 		}
 	}
-	
+
 
 	@Override
 	public void refresh(Graphics canvas) {
@@ -159,13 +208,6 @@ public class IDrawingEngine implements DrawingEngine {
 	@Override
 	public void updateShape(Shape oldShape, Shape newShape) {
 		commandManager.executeCommand(new UpdateShapeCommand(this, newShape, oldShape));
-		
-		/*for(int i = 0; i < shapes.length; i++){
-            if(shapes[i] == oldShape){
-            	shapes[i] = newShape;
-            }
-        }*/
-
 	}
 
 	@Override

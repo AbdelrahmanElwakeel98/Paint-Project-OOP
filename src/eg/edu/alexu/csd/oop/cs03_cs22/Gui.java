@@ -29,7 +29,7 @@ public class Gui {
 
 	private JFrame frame;
 	public static int drawFlag = 0;
-	public static int sel = 0, remove = 0, undo = 0, redo = 0;
+	public static int sel = 0, remove = 0, undo = 0, redo = 0, move = 0;
 
 	/**
 	 * Launch the application.
@@ -77,6 +77,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		btnLine.setBounds(12, 28, 97, 37);
@@ -91,6 +92,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		button.setBounds(121, 28, 97, 37);
@@ -104,6 +106,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		button_1.setBounds(230, 28, 97, 37);
@@ -117,6 +120,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		button_2.setBounds(12, 78, 97, 37);
@@ -130,6 +134,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		button_3.setBounds(121, 78, 97, 37);
@@ -143,6 +148,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 			}
 		});
 		button_4.setBounds(230, 78, 97, 37);
@@ -179,6 +185,7 @@ public class Gui {
 				redo = 0;
 				undo = 0;
 				drawFlag = 0;
+				move = 0;
 
 			}
 		});
@@ -193,6 +200,7 @@ public class Gui {
 				redo = 0;
 				remove = 0;
 				undo = 0;
+				move = 0;
 
 			}
 		});
@@ -207,6 +215,7 @@ public class Gui {
 				sel = 0;
 				redo = 0;
 				remove = 0;
+				move = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
@@ -225,6 +234,7 @@ public class Gui {
 				drawFlag = 0;
 				sel = 0;
 				remove = 0;
+				move = 0;
 				panel.removeAll();
 				//add your elements
 				panel.revalidate();
@@ -233,6 +243,20 @@ public class Gui {
 		});
 		btnRedo.setBounds(519, 40, 97, 25);
 		frame.getContentPane().add(btnRedo);
+		
+		JButton btnMove = new JButton("Move");
+		btnMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				drawFlag = 0;
+				sel = 0;
+				redo = 0;
+				remove = 0;
+				undo = 0;
+				move = 1;
+			}
+		});
+		btnMove.setBounds(384, 2, 97, 25);
+		frame.getContentPane().add(btnMove);
 
 	}
 }

@@ -55,6 +55,18 @@ public class Triangle extends IShape{
 			canvas.drawPolygon(new int[] {c + x, (int) SecondX, x}, new int[] {y, (int) SecondY, (int) SecondY}, 3);
 			}
 		}
-
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Triangle e = new Triangle();
+		Map<String, Double> pros = new HashMap< String, Double>();
+		pros.put("First", this.getProperties().get("SecondX"));
+		pros.put("Second", this.getProperties().get("SecondY"));
+		e.setPosition(this.getPosition());
+		e.setProperties(pros);
+		e.setColor(this.getColor());
+		e.setFillColor(this.getFillColor());
+		
+		return e;
 	}
 }
