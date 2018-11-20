@@ -285,7 +285,7 @@ public class Gui {
 		});
 		btnRedo.setBounds(727, 0, 97, 25);
 		frame.getContentPane().add(btnRedo);
-		
+
 		JButton btnMove = new JButton("Move");
 		btnMove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -303,7 +303,7 @@ public class Gui {
 		});
 		btnMove.setBounds(12, 93, 73, 37);
 		frame.getContentPane().add(btnMove);
-		
+
 		JButton btnResize = new JButton("Resize");
 		btnResize.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -325,7 +325,7 @@ public class Gui {
 		});
 		btnResize.setBounds(97, 93, 80, 37);
 		frame.getContentPane().add(btnResize);
-		
+
 		JButton btnChangecolor = new JButton("ChangeColor");
 		btnChangecolor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -349,7 +349,7 @@ public class Gui {
 		});
 		btnChangecolor.setBounds(189, 93, 122, 37);
 		frame.getContentPane().add(btnChangecolor);
-		
+
 		JButton btnSavexml = new JButton("SaveXML");
 		btnSavexml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -385,7 +385,7 @@ public class Gui {
 		});
 		btnSavexml.setBounds(703, 99, 97, 25);
 		frame.getContentPane().add(btnSavexml);
-		
+
 		JButton btnLoadxml_1 = new JButton("LoadXML");
 		btnLoadxml_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -400,7 +400,6 @@ public class Gui {
 				changeColor = 0;
 				loadXML = 1;
 				JFileChooser fs = new JFileChooser(new File("E:\\"));
-				fs.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fs.setDialogTitle("Save");
 				@SuppressWarnings("unused")
 				int result = fs.showSaveDialog(null);
@@ -421,17 +420,17 @@ public class Gui {
 		});
 		btnLoadxml_1.setBounds(594, 99, 97, 25);
 		frame.getContentPane().add(btnLoadxml_1);
-		
+
 		JLabel lblSupportedShapes = new JLabel("Supported shapes: -");
 		lblSupportedShapes.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
 		lblSupportedShapes.setBounds(12, 6, 135, 16);
 		frame.getContentPane().add(lblSupportedShapes);
-		
+
 		JLabel lblAvaiableModification = new JLabel("Avaiable modification: -");
 		lblAvaiableModification.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
 		lblAvaiableModification.setBounds(12, 78, 159, 16);
 		frame.getContentPane().add(lblAvaiableModification);
-		
+
 		JLabel lblColors = new JLabel("Colors: -");
 		lblColors.setFont(new Font("Bauhaus Std Light", Font.PLAIN, 13));
 		lblColors.setBounds(401, 6, 135, 16);

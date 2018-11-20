@@ -253,11 +253,13 @@ public class IDrawingEngine implements DrawingEngine {
 	@Override
 	public void save(String path) {
 		saveAndloadXMl = new SaveAndLoadXML(shapes, counter, path);
+		saveAndloadXMl.savexml(); 
 	}
 
 	@Override
 	public void load(String path) {
 		saveAndloadXMl = new SaveAndLoadXML(shapes, counter, path);
+		saveAndloadXMl.loadxml(); 
 		shapes = saveAndloadXMl.getShapesSaved();
 		counter = saveAndloadXMl.getCounter();
 
