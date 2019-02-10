@@ -44,7 +44,7 @@ public class LineSegment extends IShape{
 		}
 
   
-		canvas.setColor(Color.BLACK);
+
 		
 		if ((int) SecondX < x) {
 			if ( (int) SecondY < y ) {
